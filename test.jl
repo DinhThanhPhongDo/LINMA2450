@@ -86,7 +86,7 @@ function DynamicProgramming(c,a,N,b)
     end
     return table[N+1,b+1]
 end
-function DynamicProgramming(c,a,N,b)
+function DynamicProgramming2(c,a,N,b)
     println("==============================DynamicProgramming==============================")
     b = convert(UInt16,b)
     table = zeros(Int64, N+1, b+1) 
@@ -95,28 +95,26 @@ function DynamicProgramming(c,a,N,b)
 
         for w in 1:b+1
 
-            for t in 0:10
+            for t in 0:1
 
                 if (i == 1 || w == 1) #initialiser
                     table[i,w] = 0
 
                 #tant que le poids n'est pas suffisant
-                elseif dict[i-1][2] <= w-1 - t*dict[i][2]
+                elseif t*dict[i-1][2] <= w-1
 
-                        table[i,w] = max(table[i-1, w],
-                                        t *dict[i-1][1] + table[i-1, w - dict[i-1][2]])
-                else dict[i-1][2] < w-1
-
-                    table[i,w] = table[i-1,w]
+                    table[i,w] = max(table[i-1, w],
+                                    t *dict[i-1][1] + table[i-1, w - t*dict[i-1][2]],
+                                    table[i,w])
                 end
             end
         end
     end
-    return table[101,:]
+    return table[101,101]
 end
 
-model = SolverModel(c,a,N,b)
-objective_value(model)
+#model = SolverModel(c,a,N,b)
+#objective_value(model)
 
 println(greedy(c,a,N,b)[1])
-println(DynamicProgramming(c,a,N,b))
+println(DynamicProgramming2(c,a,N,b))
