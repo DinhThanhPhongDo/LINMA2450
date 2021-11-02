@@ -123,29 +123,9 @@ function DynamicProgramming2(c,a,N,b)
             end
         end
     end
-            # t to modify according to textbook p42 and not from 0 to 1000
-            for t in 0:1000#dict[i][2]/b
-                #Im not too sure how to create properly flag, but this one is to avoid to cycle too much in the "t loop"
-                flag =false
-                if (i == 1 || w == 1) #initialisation
-                    table[i,w] = 0
-                #tant que le poids n'est pas suffisant
-                elseif t*dict[i-1][2] <= w-1
-                    println(b/dict[i][2])
-                    flag =true
-                    #dict[i-1] acces the current item. table[i-1] acces the previous item! Sorry but Julia index begin. 
-                    #Si tu trouves une façon de rendre les indexs plus lisible, tu peux toujours modifier
-                    table[i,w] = max(table[i-1, w],
-                                    t *dict[i-1][1] + table[i-1, w - t*dict[i-1][2]],
-                                    table[i,w])
-                end
     #get x
     x = Dict(i => 0 for i in 1:N)
     w = b+1
-    for i in 1:N+1
-        #println(i-1)
-        #println(table[i,:])
-    end
     for i in (N+1:-1:2)
             #println(i-1)
         if table[i,w] == table[i-1,w]
@@ -187,11 +167,8 @@ function DynamicProgramming2(c,a,N,b)
     return table[N+1,b+1],x
 end
 
-
-
 model = SolverModel(c,a,N,b)
 @show objective_value(model)
-
 
 println(greedy(c,a,N,b)[1],greedy(c,a,N,b)[3])
 println(greedy(c,a,N,b))
@@ -199,6 +176,3 @@ println(greedy(c,a,N,b))
 #for the medium problem, we can obtain the same results as the GLPK solver. Very slow for large problem. 
 #there exist also a DynamicProgramming solver, but this one is the one from the github and is only for the 0-1 knapsack problem i think
 println(DynamicProgramming2(c,a,N,b))
-
-
-
