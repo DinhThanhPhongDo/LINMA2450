@@ -63,8 +63,6 @@ function DynamicProgramming(c,a,N,b)
             else
                 tmax=floor(w/dict[i-1][2], digits=0)
                 tmax=convert(UInt16,tmax)
-                #print("utility is :")
-                #println( tmax)
                 
                 totest = [ t *dict[i-1][1] + table[i-1, w - t*dict[i-1][2]] for t in 0:tmax if t*dict[i-1][2] <= w-1]
                 table[i,w] = findmax(totest)[1]
