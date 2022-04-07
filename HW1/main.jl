@@ -11,7 +11,7 @@ function SolverModel(c,a,N,b)
     set_optimizer_attribute(model, "Cuts", 0)
 
     #set limit time
-    set_time_limit_sec(model, 60.0)
+    set_time_limit_sec(model, 20.0)
 
     #the model itself
     @variable(model, x[1:N], Int)
@@ -98,7 +98,7 @@ end
 ###############################################################################################################################################
 
 # Parsing : extracting datas from .json files 
-dict = JSON.parsefile("large1.json")
+dict = JSON.parsefile("large2.json")
 
 c = dict["utility"]
 a = dict["weight"]
